@@ -1,0 +1,15 @@
+{
+    "postgresql": {
+        "host": "34.42.84.160",
+        "dbname": "starsarena",
+        "user": "postgres",
+        "password": "dfaflmDjEf,LCZImkDjEf,LCZI",
+        "port": 5432
+    },
+
+    "weights": {
+        "buyingPower": "5",
+        "portfolioPower": "1",
+        "referralPower": 5
+    }
+}
