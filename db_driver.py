@@ -10,12 +10,24 @@ class DataBaseDrivers:
         query_time_str = initial_time.strftime('%Y-%m-%d %H:%M:%S')
     
         query = """
-        SELECT SUM("Trade2"."amount") AS cnt, "Trade2"."traderId", "User"."twitterHandle"
-        FROM "Trade2"
-        JOIN "User" ON "Trade2"."traderId" = "User"."id"
-        WHERE "Trade2"."amount" > 0 AND "Trade2"."isBuy" = true AND "Trade2"."createdOn" > %s
-        GROUP BY "Trade2"."traderId", "User"."twitterHandle"
-        ORDER BY cnt DESC;
+        SELECT 
+        SUM("Trade2"."amount") AS cnt,
+        "Trade2"."traderId",
+        "User"."twitterHandle",  
+        "User"."twitterPicture",  
+        "User"."twitterName"     
+        FROM 
+        "Trade2"
+        JOIN 
+        "User" ON "Trade2"."traderId" = "User"."id"
+        WHERE 
+        "Trade2"."amount" > 0 
+        AND "Trade2"."isBuy" = true 
+        AND "Trade2"."createdOn" > '2024-3-10 15:09:10'
+        GROUP BY 
+        "Trade2"."traderId", "User"."twitterHandle", "User"."twitterPicture", "User"."twitterName"  
+        ORDER BY 
+        cnt DESC;  
         """
         
         with self.conn.cursor() as cur:

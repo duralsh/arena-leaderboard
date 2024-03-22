@@ -33,7 +33,7 @@ def get_leaderboard(user_id, page_number, limit_per_page):
         "tickets": (int(matching_user_tuple[0][1][0]) / ticket_price),
         "rank": matching_user_tuple[0][0]
     }
-
+    print(buy_weights[0])
     for indice, record in enumerate(buy_weights[start_index:end_index], start=start_index):
         trader_id, cnt, twitter_handle = record[1], int(record[0]), record[2]
         user_info = {
@@ -60,7 +60,7 @@ def leaderboard_api(user_id):
     return jsonify(leaderboard)
 
 
-leaderboard = get_leaderboard("82a9b8d8-60cf-47b9-81e1-36779aa13c20", 55, 10)
+leaderboard = get_leaderboard("82a9b8d8-60cf-47b9-81e1-36779aa13c20", 1, 10)
 
 print(leaderboard)
 
