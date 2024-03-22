@@ -8,9 +8,9 @@ app = Flask(__name__)
 db_config = get_db_config()
 db_drivers = DataBaseDrivers(db_config=db_config)
 
-query_time = datetime(2024, 3, 10, 15, 9, 10, tzinfo=timezone.utc)  ## BAD NAMING, change later
+LEADERBOARD_START_TIME = datetime(2024, 3, 10, 15, 9, 10, tzinfo=timezone.utc)  ## BAD NAMING, change later
 
-ticket_price = 0.1 * 1e18
+TICKET_PRICE = 0.1 * 1e18
 
 
 
@@ -23,7 +23,7 @@ def get_leaderboard(user_id, page_number, limit_per_page):
         "currentUser": {}
     }
 
-    buy_weights = db_drivers.query_buy_weight(query_time)
+    buy_weights = db_drivers.query_buy_weight(LEADERBOARD_START_TIME)
 
     matching_user_tuple = [(index, weight_tuple) for index, weight_tuple in enumerate(buy_weights) if weight_tuple[1] == user_id]
 
@@ -32,7 +32,7 @@ def get_leaderboard(user_id, page_number, limit_per_page):
         "twitterHandle": matching_user_tuple[0][1][2],
         "twitterName": matching_user_tuple[0][1][4],
         "twitterPhoto": matching_user_tuple[0][1][3],
-        "tickets": (int(matching_user_tuple[0][1][0]) / ticket_price),
+        "tickets": (int(matching_user_tuple[0][1][0]) / TICKET_PRICE),
         "rank": matching_user_tuple[0][0]
     }
     for indice, record in enumerate(buy_weights[start_index:end_index], start=start_index):
@@ -42,7 +42,7 @@ def get_leaderboard(user_id, page_number, limit_per_page):
             "twitterHandle": twitter_handle,
             "twitterName": twitter_name,
             "twitterPhoto": twitter_photo,
-            "tickets": int(cnt / ticket_price),
+            "tickets": int(cnt / TICKET_PRICE),
             "rank": indice + 1
         }
         leaderboard["users"].append(user_info)
