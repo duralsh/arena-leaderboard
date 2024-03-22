@@ -12,7 +12,6 @@ query_time = datetime(2024, 3, 10, 15, 9, 10, tzinfo=timezone.utc)  ## BAD NAMIN
 
 ticket_price = 0.1 * 1e18
 
-buy_weigts = db_drivers.query_buy_weight(query_time)
 
 
 
@@ -24,7 +23,18 @@ def get_leaderboard(user_id, page_number, limit_per_page):
         "currentUser": {}
     }
 
-    for indice, record in enumerate(buy_weigts[start_index:end_index], start=start_index):
+    buy_weights = db_drivers.query_buy_weight(query_time)
+
+    matching_user_tuple = [(index, weight_tuple) for index, weight_tuple in enumerate(buy_weights) if weight_tuple[1] == user_id]
+
+    leaderboard["currentUser"] =  {
+        "userId": matching_user_tuple[0][1][1],
+        "twitterHandle": matching_user_tuple[0][1][2],
+        "tickets": (int(matching_user_tuple[0][1][0]) / ticket_price),
+        "rank": matching_user_tuple[0][0]
+    }
+
+    for indice, record in enumerate(buy_weights[start_index:end_index], start=start_index):
         trader_id, cnt, twitter_handle = record[1], int(record[0]), record[2]
         user_info = {
             "userId": trader_id,
@@ -33,9 +43,6 @@ def get_leaderboard(user_id, page_number, limit_per_page):
             "rank": indice + 1
         }
         leaderboard["users"].append(user_info)
-
-        if user_id == trader_id:
-            leaderboard["currentUser"] = user_info
 
     return leaderboard
 
@@ -53,7 +60,7 @@ def leaderboard_api(user_id):
     return jsonify(leaderboard)
 
 
-leaderboard = get_leaderboard("5dd3663e-4a9e-4e92-b4dd-09a45b7b2f2c", 2, 10)
+leaderboard = get_leaderboard("82a9b8d8-60cf-47b9-81e1-36779aa13c20", 55, 10)
 
 print(leaderboard)
 
