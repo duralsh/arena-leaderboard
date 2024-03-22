@@ -30,15 +30,18 @@ def get_leaderboard(user_id, page_number, limit_per_page):
     leaderboard["currentUser"] =  {
         "userId": matching_user_tuple[0][1][1],
         "twitterHandle": matching_user_tuple[0][1][2],
+        "twitterName": matching_user_tuple[0][1][4],
+        "twitterPhoto": matching_user_tuple[0][1][3],
         "tickets": (int(matching_user_tuple[0][1][0]) / ticket_price),
         "rank": matching_user_tuple[0][0]
     }
-    print(buy_weights[0])
     for indice, record in enumerate(buy_weights[start_index:end_index], start=start_index):
-        trader_id, cnt, twitter_handle = record[1], int(record[0]), record[2]
+        trader_id, cnt, twitter_handle, twitter_name, twitter_photo = record[1], int(record[0]), record[2], record[4], record[3]
         user_info = {
             "userId": trader_id,
             "twitterHandle": twitter_handle,
+            "twitterName": twitter_name,
+            "twitterPhoto": twitter_photo,
             "tickets": int(cnt / ticket_price),
             "rank": indice + 1
         }
