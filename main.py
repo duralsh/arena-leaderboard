@@ -33,7 +33,7 @@ def get_leaderboard(user_id, page_number, limit_per_page):
         "twitterName": matching_user_tuple[0][1][4],
         "twitterPhoto": matching_user_tuple[0][1][3],
         "tickets": (int(matching_user_tuple[0][1][0]) / TICKET_PRICE),
-        "rank": matching_user_tuple[0][0]
+        "rank": matching_user_tuple[0][0] + 1
     }
     for indice, record in enumerate(buy_weights[start_index:end_index], start=start_index):
         trader_id, cnt, twitter_handle, twitter_name, twitter_photo = record[1], int(record[0]), record[2], record[4], record[3]
