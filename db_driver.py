@@ -15,7 +15,8 @@ class DataBaseDrivers:
         "Trade2"."traderId",
         "User"."twitterHandle",  
         "User"."twitterPicture",  
-        "User"."twitterName"     
+        "User"."twitterName",  
+        "User"."address" 
         FROM 
         "Trade2"
         JOIN 
@@ -23,11 +24,12 @@ class DataBaseDrivers:
         WHERE 
         "Trade2"."amount" > 0 
         AND "Trade2"."isBuy" = true 
-        AND "Trade2"."createdOn" > '2024-3-10 15:09:10'
-        GROUP BY 
-        "Trade2"."traderId", "User"."twitterHandle", "User"."twitterPicture", "User"."twitterName"  
+        AND "Trade2"."createdOn" > '2024-3-18 20:07:01'
+		AND "Trade2"."traderId" != "Trade2"."subjectId"
+        GROUP BY     
+        "Trade2"."traderId", "User"."twitterHandle", "User"."twitterPicture", "User"."twitterName", "User"."address" 
         ORDER BY 
-        cnt DESC;  
+        cnt DESC;
         """
         
         with self.conn.cursor() as cur:
