@@ -1,6 +1,7 @@
 from config import get_db_config
 from db_driver import DataBaseDrivers
 from datetime import datetime, timedelta, timezone
+import csv
 
 
 db_config = get_db_config()
@@ -50,11 +51,14 @@ def get_leaderboard(user_id, page_number, limit_per_page):
     return leaderboard
 
 
+def write_leaderboard_to_csv(leaderboard, filename):
+    with open(filename, mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(["Rank", "TwitterHandle", "Tickets", "Address"])
+        for user in leaderboard['users']:
+            writer.writerow([user['rank'], user['twitterHandle'], user['tickets'], user['address']])
 
+# Function usage and CSV output
 leaderboard = get_leaderboard("82a9b8d8-60cf-47b9-81e1-36779aa13c20", 1, 50)
-
-
-for player in leaderboard['users']:
-    print(player)
-
+write_leaderboard_to_csv(leaderboard, 'leaderboard.csv')
 
