@@ -75,7 +75,7 @@ leaderboard = get_leaderboard("82a9b8d8-60cf-47b9-81e1-36779aa13c20", 1, 500000)
 randomized_list = create_randomized_list(leaderboard["users"])
 raffle_list = [{"text": user} for user in randomized_list]
 
-limited_raffle_list = raffle_list[:100000]
+# raffle_list = raffle_list[:60000]
 
-# Print using JSON to ensure double quotes
-print(json.dumps(limited_raffle_list, indent=2))
+with open('raffle-wheel/entries.json', 'w') as file:
+        json.dump(raffle_list, file, indent=2)
