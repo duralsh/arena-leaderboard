@@ -1,0 +1,3 @@
+[submodule "raffle-wheel"]
+	path = raffle-wheel
+	url = git@github.com:FiratBerkCakar/raffle-api.git

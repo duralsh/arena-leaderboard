@@ -6,7 +6,6 @@ class DataBaseDrivers:
         self.conn = psycopg2.connect(dbname=db_config['dbname'], user=db_config['user'], password=db_config['password'], host=db_config['host'], port=db_config['port'])
     
     def query_buy_weight(self,initial_time) -> list[tuple[Any, ...]]:
-        print(f'Querying buy weights...')
         query_time_str = initial_time.strftime('%Y-%m-%d %H:%M:%S')
     
         query = """
