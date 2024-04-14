@@ -2,7 +2,8 @@ from config import get_db_config
 from db_driver import DataBaseDrivers
 from datetime import datetime, timedelta, timezone
 import csv
-
+import random
+import json
 
 db_config = get_db_config()
 db_drivers = DataBaseDrivers(db_config=db_config)
@@ -58,7 +59,23 @@ def write_leaderboard_to_csv(leaderboard, filename):
         for user in leaderboard['users']:
             writer.writerow([user['rank'], user['twitterHandle'], user['tickets'], user['address']])
 
-# Function usage and CSV output
-leaderboard = get_leaderboard("82a9b8d8-60cf-47b9-81e1-36779aa13c20", 1, 50)
-write_leaderboard_to_csv(leaderboard, 'leaderboard.csv')
 
+def create_randomized_list(users):
+    twitter_handles = []
+    total_tickets = sum([user["tickets"] for user in users])
+    # Loop through each user and add their handle based on the number of tickets
+    for user in users:
+        twitter_handles.extend([user["twitterHandle"]] * user["tickets"])
+    
+    # Shuffle the list randomly
+    random.shuffle(twitter_handles)
+    return twitter_handles
+
+leaderboard = get_leaderboard("82a9b8d8-60cf-47b9-81e1-36779aa13c20", 1, 500000)
+randomized_list = create_randomized_list(leaderboard["users"])
+raffle_list = [{"text": user} for user in randomized_list]
+
+limited_raffle_list = raffle_list[:100000]
+
+# Print using JSON to ensure double quotes
+print(json.dumps(limited_raffle_list, indent=2))
